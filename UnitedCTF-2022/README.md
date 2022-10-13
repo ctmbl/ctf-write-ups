@@ -13,8 +13,9 @@ It's a Jeopardy CTF and the flag format is `^FLAG-.+$`, the challenges are mainl
 
 ## Links
 
-**Discord**: https://discord.gg/wFxFYJwZ
 **UnitedCTF 2022**: https://ctf2022.unitedctf.ca/
+**Their solutions**: https://github.com/UnitedCTF/UnitedCTF-2022/
+**Discord**: https://discord.gg/wFxFYJwZ
 
 *Archives:*
 https://ctf2021.unitedctf.ca/
