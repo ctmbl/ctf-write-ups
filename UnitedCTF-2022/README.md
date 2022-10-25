@@ -22,5 +22,5 @@ https://ctf2021.unitedctf.ca/
 https://ctf2020.unitedctf.ca/
 
 ### Personnal stats
-![](/images/UnitedCTF-2022/Category Breakdown.png)
-![](/images/UnitedCTF-2022/Score over Time.png)
+![](/images/UnitedCTF-2022/Category_Breakdown.png)
+![](/images/UnitedCTF-2022/Score_over_Time.png)
