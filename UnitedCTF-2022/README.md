@@ -13,16 +13,11 @@ It spread on 1 week from September 30th 2022 to October 7th. The long format is 
 It's a Jeopardy CTF and the flag format is `^FLAG-.+$`, the challenges are mainly Web, Crypto and Pwn/Reverse oriented, a bit of Forensic but no OSINT and an original Dynamic Malware Analysis category.
 
 ## Links
-
-**UnitedCTF 2022**: https://ctf2022.unitedctf.ca/
-
-**Their solutions**: https://github.com/UnitedCTF/UnitedCTF-2022/
-
-**Discord**: https://discord.gg/wFxFYJwZ
+**UnitedCTF 2022**: https://ctf2022.unitedctf.ca/  
+**Their solutions**: https://github.com/UnitedCTF/UnitedCTF-2022/  
+**Discord**: https://discord.gg/wFxFYJwZ  
 
 *Archives:*
-
-https://ctf2021.unitedctf.ca/
-
+https://ctf2021.unitedctf.ca/  
 https://ctf2020.unitedctf.ca/
 
