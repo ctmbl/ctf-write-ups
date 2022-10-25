@@ -17,7 +17,10 @@ It's a Jeopardy CTF and the flag format is `^FLAG-.+$`, the challenges are mainl
 **Their solutions**: https://github.com/UnitedCTF/UnitedCTF-2022/  
 **Discord**: https://discord.gg/wFxFYJwZ  
 
-*Archives:*
+*Archives:*  
 https://ctf2021.unitedctf.ca/  
 https://ctf2020.unitedctf.ca/
 
+### Personnal stats
+![](/images/UnitedCTF-2022/Category Breakdown.png)
+![](/images/UnitedCTF-2022/Score over Time.png)
