@@ -15,6 +15,8 @@ root
 │   ├── .../
 │   ├── ctmbl.txt                *statistics on my ranking*
 │   └── README.md                *description of the CTF and optionally personnal statistics*
+├── .../
 ├── images/                    *contains the images embedded in READMEs*
-└── .../
+├── template_README.md         *template for challenge README.md*
+└── README.md                  *this README.md*
 ```
