@@ -1,4 +1,4 @@
-Becaue the exponent used is 0x1=1 the RSA encryption then simplifies to:
+Because the exponent used is 0x1=1 the RSA encryption then simplifies to:
 c = m^e (mod n) = m
 
 The message = the cipher which isn't encrypted at all...
