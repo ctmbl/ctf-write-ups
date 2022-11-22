@@ -1,9 +1,0 @@
-## Baby RSA
-
-There's a reason prime numbers need to be large.
-⚠️ Note: flag is not in standard format.
-
-## file:
-e = 0x10001
-n = 0xac586f447e16c51821999902cf993f47
-ciphertext = 0x9b7a8eb8ad559e3f52ff3ceeaf0025a4
