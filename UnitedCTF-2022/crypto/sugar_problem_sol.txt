@@ -1,7 +1,0 @@
-Le message est en Morse, on le décode avec [CyberChef](https://cyberchef.org/) et on se 
-retrouve avec une chaîne de caractère sans aucun sens.
-C'est parce qu'il est aussi chiffré avec une code Vigenere. Pour brute force les code
-Vigenere j'utilise toujours [dcode](https://www.dcode.fr/chiffre-vigenere) qui est très 
-bien fait. On connait une partie du message déchiffré: `FLAG-` on lance le brute force
-et on trouve le flag:
-FLAG-CHAMALO4LIFE?
