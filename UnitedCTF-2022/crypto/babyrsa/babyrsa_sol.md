@@ -4,3 +4,4 @@ We can force it and found its prime factors p and q, I used for example [factord
 Once you have p and q it is easy to decrypt the cipher and get the message.
 You can use `python` together with [`pycryptodome`](https://www.pycryptodome.org/src/public_key/rsa), I personaly used an [online decoder](https://asecuritysite.com/encryption/rsa12_2).  
 And here you have the flag!
+*based64 flag:* `dDBvX3NtNGwxX2VmZmRjOAo=`
