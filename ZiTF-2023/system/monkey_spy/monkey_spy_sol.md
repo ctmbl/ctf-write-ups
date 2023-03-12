@@ -58,7 +58,11 @@ strace: Process 26873 attached
 
 ## Final steps
 quite some...
-let's look at them, and there we find an interesting info:
+let's look at them, we `cat` the firsts and finally use a grep:
+```
+cat output.* | grep ZiTF
+```
+and there we find an interesting info:
 ```
 write(4, "\0\0\0&ZiTF{j9obn4mdn16kp015jkj2kf9"..., 42) = 42
 ```
