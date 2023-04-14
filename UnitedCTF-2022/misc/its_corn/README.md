@@ -1,4 +1,4 @@
-## It's corn! [WU to be Added]
+## It's corn!
 **Points**: 258  
 **Category**: misc  
 **Author**: [Granny](https://github.com/CloeD)
