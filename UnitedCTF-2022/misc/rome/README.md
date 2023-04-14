@@ -1,4 +1,4 @@
-## Tous les chemins mènent à Rome [WU to be Added]
+## Tous les chemins mènent à Rome
 **Points**: 300  
 **Category**: misc  
 **Author**: [Granny](https://github.com/CloeD)
