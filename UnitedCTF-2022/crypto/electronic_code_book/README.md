@@ -5,7 +5,7 @@
 
 Can you get admin access?
 
-[ecb.py](./ecb_enonce.py)
+[ecb.py](./ecb.py)
 
 ## Electronic Code Book 2
 **Points**: 450  
