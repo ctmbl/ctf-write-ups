@@ -1,0 +1,2 @@
+Simply base64 decode the string (using CLI `echo <the string> | base64 -d` or using [CyberChef](https://cyberchef.org/)).  
+Then xor it with `cafebabe` (the key) using `python` (for example `pwntools` package) or CyberChef.  
