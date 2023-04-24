@@ -13,7 +13,7 @@ b64_flag = b"XWxPUD5HSBhAR1gHVnh9b31mNUg="
 xored = b64decode(b64_flag)
 flag = bytearray(xored)
 
-
+# DOESN'T work
 def xor(cur, b):
     res = cur.copy()
     for i in range(len(res)):
