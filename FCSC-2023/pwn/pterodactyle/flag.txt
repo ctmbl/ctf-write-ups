@@ -1,0 +1,1 @@
+FCSC{FAKE_FLAG}
