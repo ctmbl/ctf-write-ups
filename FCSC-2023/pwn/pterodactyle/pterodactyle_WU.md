@@ -199,7 +199,7 @@ It's actually a glibc protection called [Pointer Guard](https://sourceware.org/g
 
 But how to reverse it to know how to modify the cookie?
 
-The glibc mangling code for x86_64 can be found [here](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/x86_64/setjmp.S;h=a60333566b9c4174d3204dc398606f0897fb7d0a;hb=HEAD) 
+The glibc mangling code for x86_64 can be found [here](https://codebrowser.dev/glibc/glibc/sysdeps/unix/sysv/linux/x86_64/sysdep.h.html#_M/PTR_MANGLE) 
 
 so the mangling consists of:
 rol(ptr XOR key, 17 bits)
