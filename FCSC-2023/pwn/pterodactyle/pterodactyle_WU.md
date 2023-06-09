@@ -58,9 +58,11 @@ So after this little inspection it's time for disassembling and decompiling, the
 
 ### `main`
 We load the binary in a [free online session of binary ninja](https://cloud.binary.ninja/) (but you can choose `ghidra`, `ida`, or `cutter` shouldn't be much of a difference) and start looking at the main.
-```
-add main code
-```
+
+![](/images/FCSC-2023/pwn/pterodactyle/main-1.png)
+![](/images/FCSC-2023/pwn/pterodactyle/main-2.png)
+![](/images/FCSC-2023/pwn/pterodactyle/main-3.png)
+
 It's a switch case but on the return value of `setjump`?? Wtf is that?
 
 After a quick research `setjmp` and `longjmp` are functions used to do some `goto`s but to external places.  
@@ -75,17 +77,17 @@ But of course it doesn't work so well :') : `Do not try to be smart!`
 
 ### `menu`
 Now let's look at the `menu` function.
-```
-add menu code
-```
+
+![](/images/FCSC-2023/pwn/pterodactyle/menu-1.png)
+
 After a quick look, we get that it returns -1 in case we enter a number that is <=0 or >3 so we can't just do that, but we notice that the int passed as param to menu is in fact the variable that controls the `puts` of the 2nd and 3rd options! So we guess that logging in will allow us these options.  
 But we still have to log in...
 
 ### `decrypt`
 and then we take a look at the decrypt function
-```
-add decrypt code
-```
+
+![](/images/FCSC-2023/pwn/pterodactyle/decrypt-1.png)
+
 It takes a buffer (and modifies it) and its size as parameters and simply do a xor with `0x77` on each bytes, not what we would called a secure way of storing secrets, but this is not a reverse challenge.
 > Note: in main this decrypted buffer is compared to USERNAME and PASSWORD!
  
